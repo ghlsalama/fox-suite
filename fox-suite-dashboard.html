@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fox Suite — Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#05080f;--bg2:rgba(11,22,38,0.55);--bg3:rgba(16,30,50,0.7);--ink:#d6ecff;--ink-dim:#7e9bb8;--muted:#54718c;--hud:#2ee6ff;--hud-dim:rgba(46,230,255,0.25);--hud-faint:rgba(46,230,255,0.08);--border:rgba(46,230,255,0.18);--border-strong:rgba(46,230,255,0.40);--amber:#ffb454;--good:#27d07a;--warn:#ffb454;--glow:0 0 8px rgba(46,230,255,0.55),0 0 22px rgba(46,230,255,0.22);--f1:#3987e5;--f2:#d95926;--f3:#199e70}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Rajdhani',system-ui,sans-serif;padding:0 clamp(14px,3.5vw,46px) 70px;background-image:radial-gradient(1100px 560px at 50% -12%,rgba(46,230,255,0.12),transparent 60%),radial-gradient(820px 480px at 92% 112%,rgba(255,180,84,0.07),transparent 60%);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 2px,rgba(0,0,0,0.16) 3px);opacity:.45}
+.wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+/* Header */
+header{display:flex;align-items:center;gap:18px;padding:30px 0 10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:14px}
+.logo svg{width:44px;height:44px;animation:spin 20s linear infinite}
+.logo h1{font-family:'Orbitron';font-size:20px;font-weight:700;letter-spacing:.14em;margin:0;text-shadow:var(--glow)}
+.logo .sub{font-family:'Share Tech Mono';font-size:11px;color:var(--hud);letter-spacing:.1em;text-transform:uppercase}
+.spacer{flex:1}
+.clock{font-family:'Share Tech Mono';font-size:15px;color:var(--hud);text-shadow:var(--glow);font-variant-numeric:tabular-nums}
+/* Hero MRR */
+.hero-mrr{text-align:center;padding:40px 0 20px}
+.hero-mrr .label{font-family:'Share Tech Mono';font-size:12px;color:var(--ink-dim);letter-spacing:.2em;text-transform:uppercase}
+.hero-mrr .num{font-family:'Orbitron';font-weight:900;font-size:clamp(48px,10vw,80px);color:#fff;letter-spacing:-.03em;text-shadow:var(--glow)}
+.hero-mrr .num .cur{color:var(--hud);font-weight:500;font-size:.4em}
+.hero-mrr .delta{color:var(--good);font-size:14px;margin-top:8px}
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;backdrop-filter:blur(6px);box-shadow:inset 0 0 24px var(--hud-faint);position:relative}
+.kpi::before,.kpi::after{content:"";position:absolute;width:12px;height:12px;border:1.5px solid var(--hud)}
+.kpi::before{top:5px;left:5px;border-right:0;border-bottom:0}
+.kpi::after{bottom:5px;right:5px;border-left:0;border-top:0}
+.kpi .l{font-family:'Share Tech Mono';font-size:10px;color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase}
+.kpi .v{font-family:'Orbitron';font-weight:700;font-size:28px;margin-top:4px;color:#fff}
+.kpi .d{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi .d.up{color:var(--good)}
+/* Product cards */
+.section-h{display:flex;align-items:center;gap:14px;margin:40px 0 16px}
+.section-h .bar{width:10px;height:10px;background:var(--hud);transform:rotate(45deg);box-shadow:var(--glow)}
+.section-h h2{font-family:'Orbitron';font-weight:500;font-size:14px;margin:0;letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.cards{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;backdrop-filter:blur(6px)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.card .name{display:flex;align-items:center;gap:10px;font-family:'Orbitron';font-size:16px;font-weight:500}
+.card .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.card .stat-row{display:flex;justify-content:space-between;margin-top:14px;padding:6px 0;border-bottom:1px solid var(--hud-faint)}
+.card .stat-row:last-child{border:0}
+.card .stat-row .k{font-size:12px;color:var(--ink-dim)}
+.card .stat-row .vv{font-family:'Share Tech Mono';font-size:14px;color:var(--hud);font-weight:600}
+.card .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;margin-top:10px;background:rgba(39,208,122,0.16);color:var(--good);border:1px solid rgba(39,208,122,0.3)}
+/* Revenue chart */
+.chart-panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:20px;margin-top:30px}
+.chart-panel h3{font-family:'Orbitron';font-size:14px;margin:0 0 16px;color:var(--ink)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;padding:0 4px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar-col .bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .5s;position:relative}
+.bar-col .bar-fill.f1{background:linear-gradient(180deg,var(--f1),transparent)}
+.bar-col .bar-fill.f2{background:linear-gradient(180deg,var(--f2),transparent);margin-top:-100%}
+.bar-col .bar-fill.f3{background:linear-gradient(180deg,var(--f3),transparent);margin-top:-100%}
+.bar-col .lbl{font-family:'Share Tech Mono';font-size:9px;color:var(--muted)}
+footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--hud-faint);font-family:'Share Tech Mono';color:var(--muted);font-size:11px;text-align:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="logo">
+<svg viewBox="0 0 100 100" fill="none" stroke="var(--hud)" stroke-width="1.5">
+<circle cx="50" cy="50" r="46" stroke-opacity="0.4"/>
+<circle cx="50" cy="50" r="38" stroke-dasharray="3 5" stroke-opacity="0.6"/>
+<path d="M50 4a46 46 0 0 1 46 46" stroke-width="2.5"/>
+<path d="M50 96a46 46 0 0 1-46-46" stroke-opacity="0.3"/>
+</svg>
+<div>
+<h1>FOX SUITE</h1>
+<div class="sub">Command Center · 3 SaaS Products</div>
+</div>
+</div>
+<div class="spacer"></div>
+<div class="clock" id="clock">--:--:--</div>
+</header>
+
+<div class="hero-mrr">
+<div class="label">Total Monthly Recurring Revenue</div>
+<div class="num">$0<span class="cur">/mo</span></div>
+<div class="delta">Projected $5,900/mo at 100 bundle subscribers</div>
+</div>
+
+<div class="kpis">
+<div class="kpi"><div class="l">Total Customers</div><div class="v">0</div><div class="d">across all 3 products</div></div>
+<div class="kpi"><div class="l">Bundle Subscribers</div><div class="v">0</div><div class="d up">$59/mo each</div></div>
+<div class="kpi"><div class="l">AI Operations</div><div class="v">0</div><div class="d">chats + posts + descriptions</div></div>
+<div class="kpi"><div class="l">Avg Revenue/User</div><div class="v">$0</div><div class="d">target: $43+</div></div>
+</div>
+
+<div class="section-h"><span class="bar"></span><h2>The Three Products</h2></div>
+<div class="cards">
+<div class="card" style="--accent:var(--f1)">
+<div class="name"><span class="dot"></span>🦊 ReplyFox</div>
+<div class="stat-row"><span class="k">Status</span><span class="vv">DEMO READY</span></div>
+<div class="stat-row"><span class="k">Customers</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">Messages handled</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">MRR</span><span class="vv">$0</span></div>
+<div class="stat-row"><span class="k">Price</span><span class="vv">$29/mo</span></div>
+<span class="pill">✓ 16/16 tests · demo working</span>
+</div>
+<div class="card" style="--accent:var(--f2)">
+<div class="name"><span class="dot"></span>📱 PostPilot</div>
+<div class="stat-row"><span class="k">Status</span><span class="vv">BUILDING</span></div>
+<div class="stat-row"><span class="k">Customers</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">Posts generated</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">MRR</span><span class="vv">$0</span></div>
+<div class="stat-row"><span class="k">Price</span><span class="vv">$29/mo</span></div>
+<span class="pill">⚡ Building now</span>
+</div>
+<div class="card" style="--accent:var(--f3)">
+<div class="name"><span class="dot"></span>📝 DescFox</div>
+<div class="stat-row"><span class="k">Status</span><span class="vv">BUILDING</span></div>
+<div class="stat-row"><span class="k">Customers</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">Descriptions written</span><span class="vv">0</span></div>
+<div class="stat-row"><span class="k">MRR</span><span class="vv">$0</span></div>
+<div class="stat-row"><span class="k">Price</span><span class="vv">$29/mo</span></div>
+<span class="pill">⚡ Building now</span>
+</div>
+</div>
+
+<div class="chart-panel">
+<h3>12-Month Revenue Projection (Fox Suite Bundle)</h3>
+<div class="bars" id="chart"></div>
+</div>
+
+<footer>Fox Suite Command Center · Built by autonomous agents · github.com/ghlsalama/fox-suite</footer>
+</div>
+
+<script>
+// Clock
+function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=`${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`}
+tick();setInterval(tick,1000);
+// Projection chart
+const projection=[0,87,290,580,1200,2200,3500,5900];
+const labels=['Now','M1','M2','M3','M6','M9','M12','M18'];
+const maxVal=5900;
+const chart=document.getElementById('chart');
+projection.forEach((val,i)=>{
+const h=(val/maxVal*100);
+chart.innerHTML+=`<div class="bar-col">
+<div style="height:${h}%;width:100%;background:linear-gradient(180deg,var(--hud),rgba(46,230,255,0.1));border-radius:4px 4px 0 0;box-shadow:0 0 12px rgba(46,230,255,0.3)"></div>
+<div class="lbl">${labels[i]}<br>$${val>=1000?(val/1000)+'k':val}</div>
+</div>`});
+</script>
+</body>
+</html>
